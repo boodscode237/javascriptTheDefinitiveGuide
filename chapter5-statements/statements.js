@@ -71,15 +71,15 @@ function convert(x) {
         case "number": // Convert the number to a hexadecimal integer
             return x.toString(16);
         case "string": // Return the string enclosed in quotes
-            return '"' + x + '"';
+            return '">' + x + '<"';
         default: // Convert any other type in the usual way
             return String(x);
     }
 }
 
-console.log(convert("kio"))
-console.log(convert(5))
-console.log(convert("5"))
+console.log("function convert", convert("kio"))
+console.log("function convert", convert(5))
+console.log("function convert", convert("5"))
 
 // Loops
 // While loops
@@ -116,6 +116,10 @@ function printArray(a) {
     }
 }
 
+console.log("function print array")
+printArray(['Яблоко', 'Банан'])
+console.log("function print array")
+
 // for
 // The for statement simplifies loops that follow a common pat‐
 // tern.\
@@ -135,13 +139,14 @@ let sum = 0;
 for (let count = 0; count < 10; count++) {
     console.log(sum += count);
 }
-
+console.log("J, i")
 let i, j, suma = 0;
 for(i = 0, j = 10 ; i < 10 ; i++, j--) {
     suma += i * j;
     console.log(suma)
 }
 console.log(suma)
+console.log("J, i")
 
 // for/of
 let data = [1, 2, 3, 4, 5, 6, 7, 8, 9], sum_ = 0;
@@ -184,10 +189,10 @@ for(let letter of "mississippi") {
         frequency[letter] = 1;
     }
 }
-
+console.log("frequency: ", frequency)
 // for/of with Set and Map
 
-let text = "Na na na na na na na na Batman!";
+let text = "Na na na ya na ya na na Batman!";
 let wordSet = new Set(text.split(" "));
 let unique = [];
 for(let word of wordSet) {
@@ -207,6 +212,7 @@ async function printStream(stream) {
 // for/in
 for(let i in a) console.log(i)
 
+// 5.3.2 function
 
 
 
