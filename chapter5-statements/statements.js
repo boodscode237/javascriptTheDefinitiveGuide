@@ -69,11 +69,11 @@ switch(n) {
 function convert(x) {
     switch(typeof x) {
         case "number": // Convert the number to a hexadecimal integer
-            return x.toString(16);
+            return x.toString(16)
         case "string": // Return the string enclosed in quotes
-            return '">' + x + '<"';
+            return '">' + x + '<"'
         default: // Convert any other type in the usual way
-            return String(x);
+            return String(x)
     }
 }
 

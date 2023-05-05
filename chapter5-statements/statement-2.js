@@ -6,8 +6,8 @@
 }
 
 //var is used to create global variables
-var i; // One simple variable
-var j = 0; // One var, one value
+var i;  // One simple variable
+let j = 0; // One var, one value
 var p, q; // Two variables
 var name = "Don";
 var greeting = "hello" + name; // A complex initializer
@@ -18,9 +18,11 @@ var x = 2, // Multiple variables...
     y = f(x);
 
 let o = [1,2,3,4,5,6,7,8,9,10]
-for(var i = 0; i < 10; i++) console.log("1", i);
-for(var i = 0, j=10; i < 10; i++,j--) console.log("2", i*j);
-for(var i in o) console.log("3", i);
+for(i = 0; i < 10; i++) console.log("1", i);
+i = 0;
+j = 10;
+for(; i < 10; i++,j--) console.log("2", i*j);
+for(i in o) console.log("3", i);
 
 // Conditionals
 
@@ -65,14 +67,14 @@ for(initialize ; test ; increment)
 for(var count = 0; count < 10; count++)
     console.log(count);
 
-var i,j;
+let i;
 for(i = 0, j = 10 ; i < 10 ; i++, j--)
     sum += i * j;
 
-for(var i = 0; i < a.length; i++) // Assign array indexes to variable i
+for(let i = 0; i < a.length; i++) // Assign array indexes to variable i
     console.log(a[i]); // Print the value of each array element
 
-for(var p in o) // Assign property names of o to variable p
+for(let p in o) // Assign property names of o to variable p
     console.log(o[p]); // Print the value of each property
 
 mainloop: while(token != null) {
@@ -99,9 +101,10 @@ compute_sum: if (matrix) {
 }
 
 function factorial(x) {
-    // If the input argument is invalid, throw an exception!
+    let f;
+// If the input argument is invalid, throw an exception!
     if (x < 0) throw new Error("x must not be negative");
     // Otherwise, compute a value and return normally
-    for(var f = 1; x > 1; f *= x, x--) /* empty */ ;
+    for(f = 1; x > 1; f *= x, x--) /* empty */ ;
     return f;
 }
