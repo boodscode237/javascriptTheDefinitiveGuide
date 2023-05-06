@@ -13,6 +13,7 @@ const book = {
     }
 };
 
+
 const o = new Object(); // Create an empty object: same as {}.
 let a = new Array(); // Create an empty array: same as [].
 let d = new Date(); // Create a Date object representing the current time
@@ -43,9 +44,9 @@ let title = book['main title']
 console.log(`the author ${name} wrote ${title} his fullwhen someone sent the work, he can download it back by clicking at the button next to the workwhen someone sent the work, he can download it back by clicking at the button next to the workname is ${author}`)
 
 
-let o = {} // o inherits object methods from Object.prototype
+// let o = {} // o inherits object methods from Object.prototype
 o.x = 1; // and has an own property x.
-let p = inherit(o); // p inherits properties from o and Object.prototype
+// let p = inherit(o); // p inherits properties from o and Object.prototype
 p.y = 2; // and has an own property y.
 let q = inherit(p); // q inherits properties from p, o, and Object.prototype
 q.z = 3; // and has an own property z.
@@ -161,6 +162,111 @@ function keys(o) {
 // Properties defined by getters and setters are sometimes known as accessor
 // properties to distinguish them from data properties that have a simple value.
 
+let p = {
+    x: 1.0,
+    y: 2.0,
+    get r() {return Math.sqrt(this.x*this.x + this.y*this.y)},
+    set r(newValue) {
+        let oldValue = Math.sqrt(this.x*this.x + this.y*this.y)
+        let ratio = newValue/oldValue
+        this.x *= ratio
+        this.y *= ratio
+    },
+    get theta() {return Math.atan2(this.y, this.x)}
+}
+
+let q = inherit(p)
+
+q.x = 1; q.y = 1
+console.log(q.r)
+console.log(q.theta)
+
+let serialnum = {
+// This data property holds the next serial number.
+// The $ in the property name hints that it is a private property.
+    $n: 0,
+// Return the current value and increment it
+    get next() { return this.$n++; },
+// Set a new value of n, but only if it is larger than current
+    set next(n) {
+        if (n >= this.$n) this.$n = n;
+        else throw "serial number can only be set to a larger value";
+    }
+};
+
+let random = {
+    get octet() { return Math.floor(Math.random()*256); },
+    get uint16() { return Math.floor(Math.random()*65536); },
+    get int16() { return Math.floor(Math.random()*65536)-32768; }
+};
+
+let o = {}; // Start with no properties at all
+// Add a nonenumerable data property x with value 1.
+Object.defineProperty(o, "x", { value : 1,
+    writable: true,
+    enumerable: false,
+    configurable: true});
+
+// Check that the property is there but is nonenumerable
+o.x; // => 1
+Object.keys(o) // => []
+// Now modify the property x so that it is read-only
+Object.defineProperty(o, "x", { writable: false });
+// Try to change the value of the property
+o.x = 2; // Fails silently or throws TypeError in strict mode
+o.x // => 1
+// The property is still configurable, so we can change its value like this:
+Object.defineProperty(o, "x", { value: 2 });
+o.x // => 2
+// Now change x from a data property to an accessor property
+Object.defineProperty(o, "x", { get: function() { return 0; } });
+o.x // => 0
+
+let p = Object.defineProperties({}, {
+    x: { value: 1, writable: true, enumerable:true, configurable:true },
+    y: { value: 1, writable: true, enumerable:true, configurable:true },
+    r: {
+        get: function() { return Math.sqrt(this.x*this.x + this.y*this.y) },
+        enumerable:true,
+        configurable:true
+    }
+});
+
+/*
+* Add a nonenumerable extend() method to Object.prototype.
+* This method extends the object on which it is called by copying properties
+* from the object passed as its argument. All property attributes are
+* copied, not just the property value. All own properties (even non-
+* enumerable ones) of the argument object are copied unless a property
+* with the same name already exists in the target object.
+*/
+Object.defineProperty(Object.prototype,
+    "extend", // Define Object.prototype.extend
+    {
+        writable: true,
+        enumerable: false, // Make it nonenumerable
+        configurable: true,
+        value: function(o) { // Its value is this function
+// Get all own props, even nonenumerable ones
+            var names = Object.getOwnPropertyNames(o);
+// Loop through them
+            for(var i = 0; i < names.length; i++) {
+// Skip props already in this object
+                if (names[i] in this) continue;
+// Get property description from o
+                var desc = Object.getOwnPropertyDescriptor(o,names[i]);
+// Use it to create property on this
+                Object.defineProperty(this, names[i], desc);
+            }
+        }
+    });
+
+// defines the class of any object that is passed
+function classof(o) {
+    if (o === null) return "Null";
+    if (o === undefined) return "Undefined";
+    return Object.prototype.toString.call(o).slice(8,-1);
+}
 
 
 
